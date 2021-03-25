@@ -21,7 +21,6 @@ function updateTable_main_menu(){
 
 read -p "Enter Table Name: " tableName;
 
-# check if table exists
 if [[ -f $currDB/Data/$tableName ]]
 then
     export  tableName=$tableName;

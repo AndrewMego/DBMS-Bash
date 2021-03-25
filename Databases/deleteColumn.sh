@@ -8,7 +8,7 @@ colFlag=1
 for i in "${!colNames[@]}"
 do 
     if [[ $colName == "${colNames[$i]}" ]]; then
-        colFlag=0   #true
+        colFlag=0  
         colNum=$(($i+1));  
     fi   
 done

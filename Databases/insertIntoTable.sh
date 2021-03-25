@@ -1,5 +1,6 @@
 #! /bin/bash
 
+
 function validateTableName(){
     valid=0    
     IFS=' ' read -r -a array <<< $1;
@@ -18,7 +19,7 @@ function validateTableName(){
 
 function tableExists(){
     tableName=$1;
-    valid=0     # valid;
+    valid=0    
 
     if [[ -f $currDB/Data/$tableName ]]; then
         echo "Table exists.";
@@ -30,14 +31,12 @@ function tableExists(){
     echo $valid;
 }
 
-
 function insertRow(){
     IFS=$'\n' read -d '' -r -a lines < "$currDB/Metadata/$tableName"
 
     newRecord="";
     errorFlag=0;
 
-    # loop over lines array to insert each column
     for i in "${!lines[@]}"
     do
         IFS=':' read -r -a column <<< "${lines[i]}";
@@ -60,12 +59,11 @@ function insertRow(){
         fi
 
         if [[ $colPK == "yes" ]]; then
-            # get all column data from Data/tableName
             IFS=$'\n' read -d '' -r -a dataLines < "$currDB/Data/$tableName"
             
             for j in "${!dataLines[@]}";
             do
-                IFS=':' read -r -a record <<< "${dataLines[$j]}"; # record(row)
+                IFS=':' read -r -a record <<< "${dataLines[$j]}";
                 if [[ ${record[i]} == $newColValue ]]; then
                     pkFlag=1;
                     errorFlag=1;

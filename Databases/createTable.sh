@@ -45,13 +45,12 @@ function tableExists(){
     echo $valid;
 }
 
-
 function validateColumnName(){
     valid=0     
     IFS=' ' read -r -a array <<< $1;
     if (( ${#array[@]} > 1 )); then 
         echo "ERROR: Column name can not contain spaces.";
-        valid=1; #false
+        valid=1;
     fi
 
     if (( ${#array[@]} == 0 )); then 
@@ -76,7 +75,6 @@ function validateColumnName(){
     echo $valid;
 }
 
-
 function createColumns(){
     read -p "Enter number of columns: " numCols;
      
@@ -87,14 +85,12 @@ function createColumns(){
         nameFlag=$(validateColumnName "$colName");
         if [[ $nameFlag == 0 ]]; then
             colMetadata="$colName";
-            # select column datatype (string, number)
             read -p "Choose column's datatype String(s) Number(n): (s/n)" colDataType;
             if [[ $colDataType == "s" || $colDataType == "S" ]]; then
                 colMetadata="$colMetadata:string";
             elif [[ $colDataType == "n" || $colDataType == "N" ]]; then
                 colMetadata="$colMetadata:number";
             fi
-            # Is it Primary-Key (PK): (y/n):
             read -p "Is it Primary-Key (PK): (y/n)" pk;
             if [[ $pk == "y" || $pk == "Y" ]]; then
                 colMetadata="$colMetadata:yes";
@@ -110,6 +106,10 @@ function createColumns(){
     done
 }
 
+
+
+
+
 read -p "Enter table name: " tableName;
 
 nameFlag=$(validateTableName "$tableName");
@@ -119,7 +119,6 @@ tableExistsFlag=$(tableExists "$currDB" "$tableName");
 if [ $nameFlag == 0 ] && [ $tableExistsFlag == 0 ]; then
     if touch "$currDB/Data/$tableName.json"; then
         echo "Empty table created sucessfully." ;
-        # create Metadata/tableName.json
         if touch "$currDB/Metadata/$tableName.json"; then
             echo "Metadata file created sucessfully.";
         else
